@@ -4,13 +4,15 @@
 
 int main() {
     pid_t child_pid = fork();
-    pid_t child_pid2 = fork();
         
     // The child process
     if (child_pid == 0) {
         printf("### Child ###\nCurrent PID: %d and Child PID: %d\n",
                getpid(), child_pid);
-    } else {
+    } 
+    
+    else {
+        sleep(1); // Sleep for one second
         printf("### Parent ###\nCurrent PID: %d and Child PID: %d\n",
                getpid(), child_pid);
     }
