@@ -12,6 +12,11 @@ char **get_input(char *input) {
     char *separator = " ";
     char *parsed;
     int index = 0;
+    
+    if (command == NULL) {
+        perror("malloc failed");
+        exit(1);
+    }
 
     parsed = strtok(input, separator);
     while (parsed != NULL) {
@@ -36,11 +41,17 @@ int main() {
         command = get_input(input);
 
         child_pid = fork(); //new child is made to ensure that the main process/shell doesn't close
+        if(child_pid < 0) {
+            perror("Fork failed");
+            exit(1);
+        }
         if (child_pid == 0) {
-            /* Never returns if the call is successful */
-            execvp(command[0], command);
-            printf("This won't be printed if execvp is successul\n");
-        } else {
+             if (execvp(command[0], command) < 0) {
+                perror(command[0]);
+                exit(1);
+            }
+        } 
+        else {
             waitpid(child_pid, &stat_loc, WUNTRACED);
         }
 
