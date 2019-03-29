@@ -6,6 +6,8 @@ As of now it only supports builtin commands like:
 * ls
 * pwd
 
+Also for the moment it can only support 8 commands/flags. The reason for this is that 
+I allocate only 8 char*'s for the command buffer.
 In the future I'll modify this shell to support cd and maybe piping.
 
 ## What I learned
