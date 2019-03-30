@@ -13,7 +13,7 @@ char **get_input(char *input) {
     char *parsed;
     int index = 0;
     
-    if (command == NULL) {
+    if (command == NULL) { //not enough memory to allocate
         perror("malloc failed");
         exit(1);
     }
@@ -30,6 +30,10 @@ char **get_input(char *input) {
     return command;
 }
 
+int cd(char *path) {
+    return chdir(path);
+}
+
 int main() {
     char **command;
     char *input;
@@ -39,6 +43,15 @@ int main() {
     while (1) {
         input = readline("mShell> ");
         command = get_input(input);
+        
+        if (strcmp(command[0], "cd") == 0) {
+            if (cd(command[1]) < 0) {
+                perror(command[1]);
+            }
+
+            /* Skip the fork */
+            continue;
+        }
 
         child_pid = fork(); //new child is made to ensure that the main process/shell doesn't close
         if(child_pid < 0) {
