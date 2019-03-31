@@ -1,3 +1,4 @@
+#include <limits.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -37,11 +38,18 @@ int cd(char *path) {
 int main() {
     char **command;
     char *input;
+    char *directoryName;
+    char cwd[PATH_MAX];
     pid_t child_pid;
     int stat_loc;
 
     while (1) {
-        input = readline("mShell> ");
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+            directoryName = cwd;
+            strncat(cwd, ": $ ", 4);
+        }
+
+        input = readline(directoryName);
         command = get_input(input);
         
         if (strcmp(command[0], "cd") == 0) {
