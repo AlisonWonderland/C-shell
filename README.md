@@ -1,6 +1,11 @@
 # mShell
 A basic unix shell that I created with the help of a tutorial to learn about system calls.
 
+## How to compile
+    gcc shell.c -lreadline -o shell
+## To run/execute in terminal
+    ./shell
+
 ## Supported commands
 * ls
 * pwd
